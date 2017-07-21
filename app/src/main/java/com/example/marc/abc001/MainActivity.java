@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 //    finish();
                 //    return;
                 //}
-                if (iii == 3) {
+                if (iii == 1){
+                    captureButton.performClick();
+                }
+                if (iii == 3){
                     finish();
                     return;
                 }

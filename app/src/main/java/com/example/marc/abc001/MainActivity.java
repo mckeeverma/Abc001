@@ -1,9 +1,11 @@
 package com.example.marc.abc001;
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,6 +25,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Exchanger;
 
 import static android.R.attr.id;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
@@ -42,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        boolean aaa = checkCameraHardware(this);
-        // Create an instance of Camera
-        mCamera = getCameraInstance();
         captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -54,6 +56,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (iii == 3) {
+                    Log.d(TAG, "finally iii = 3");
+                    finish();
+                    finishAffinity();
+                }
+            }
+        }, 2000);
+        boolean aaa = checkCameraHardware(this);
+        // Create an instance of Camera
+        mCamera = getCameraInstance();
         // Create our Preview view and set it as the content of our activity.
         Log.d(TAG, "0000   main 001_____!!!");
         CameraPreview mPreview = new CameraPreview(this, mCamera);
@@ -65,27 +81,43 @@ public class MainActivity extends AppCompatActivity {
         captureButton.post(new Runnable() {
             @Override
             public void run() {
-                iii ++;
-                //Log.d(TAG, "iii equals " + iii);
-                //Log.d(TAG, "0000___   button post 1");
-                //if (iii == 1 || iii == 5 || iii == 7){
-                //    captureButton.performClick();
-                //}
-                //if (iii == 9) {
-                //    finish();
-                //    return;
-                //}
-                if (iii == 1){
+                iii++;
+                if (iii == 1) {
                     captureButton.performClick();
                 }
-                if (iii == 3){
-                    finish();
+                if (iii == 3) {
+                    //finish();
                     return;
                 }
                 captureButton.postDelayed(this, 3000);
             }
         });
         Log.d(TAG, "0000   main 007 done");
+        Log.d(TAG, "here i am - at the end of the method");
+        //  while(true) {
+        //      if (iii == 3) {
+        //          Log.d(TAG, "finally iii = 3");
+        //          finish();
+        //          finishAffinity();
+        //      }
+        //  }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "in onDestroy");
+        //finish();
+        //Log.d(TAG, "in onDestroy -- finish");
+        //finishAffinity();
+        //Log.d(TAG, "in onDestroy -- finishAffinity");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "in onStop");
+        //finish();
+        //Log.d(TAG, "in onStop -- finish");
     }
     private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
         @Override
@@ -111,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
             Log.d(TAG, "Activity closing now");
+            //finish();
         }
     };
     private boolean checkCameraHardware(Context context) {

@@ -104,8 +104,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         Log.d(TAG, "okay: parameters.setPictureSize(...)");
         //-----------------------------------------------------------------------------
         try {
-            //parameters.setFlashMode(parameters.FLASH_MODE_ON);
-            parameters.setFlashMode(parameters.FLASH_MODE_TORCH);
+            parameters.setFlashMode(parameters.FLASH_MODE_ON);
+            //parameters.setFlashMode(parameters.FLASH_MODE_TORCH);
         } catch (Exception e) {
             Log.d(TAG, "Error on parameters.setFlashMode(parameters.FLASH_MODE_ON)");
         }

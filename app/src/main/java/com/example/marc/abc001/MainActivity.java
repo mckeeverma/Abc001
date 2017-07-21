@@ -1,5 +1,4 @@
 package com.example.marc.abc001;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -27,9 +26,7 @@ import java.util.Date;
 
 import static android.R.attr.id;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-
 @SuppressWarnings("deprecation")
-
 public class MainActivity extends AppCompatActivity {
     private Camera mCamera;
     private CameraPreview mPreview;
@@ -40,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean permission = false;
     static File imgFile = null;
     static Context context;
-
+    int iii = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new Thread(new Runnable() {
-                            public void run() {
-                                Log.d(TAG, "0000 thread   button clickListener 1");
-                                mCamera.takePicture(null, null, mPicture);
-                                Log.d(TAG, "0000 thread  button clickListener 2");
-                            }
-                        }).start();
+                        mCamera.takePicture(null, null, mPicture);
                     }
                 }
         );
@@ -74,31 +65,35 @@ public class MainActivity extends AppCompatActivity {
         captureButton.post(new Runnable() {
             @Override
             public void run() {
+                iii ++;
+                Log.d(TAG, "iii equals " + iii);
                 Log.d(TAG, "0000___   button post 1");
-                captureButton.performClick();
-                Log.d(TAG, "0000___   button post 2");
-                captureButton.postDelayed(this, 60000);
+                if (iii == 1 || iii == 5 || iii == 7){
+                    captureButton.performClick();
+                }
+                if (iii == 9) {
+                    finish();
+                    return;
+                }
+                captureButton.postDelayed(this, 3000);
             }
         });
-        Log.d(TAG,"0000   main 007 done");
+        Log.d(TAG, "0000   main 007 done");
     }
-
     private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
-
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             Log.d(TAG, "picture taken");
             captureButton.setText("def");
-            mCamera.stopPreview();
+            //mCamera.stopPreview();
+            //mCamera.release();
             mCamera.startPreview();
             //mCamera = getCameraInstance();
-
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
             if (pictureFile == null) {
                 Log.d(TAG, "Error creating media file, check storage permissions: "); // + e.getMessage());
                 return;
             }
-
             try {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
@@ -108,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
+            Log.d(TAG, "Activity closing now");
         }
     };
-
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             // this device has a camera
@@ -122,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
     public Camera getCameraInstance() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             permission = checkCameraPermission();
@@ -147,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return c; // returns null if camera is unavailable
     }
-
     public boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -167,29 +160,22 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
     public File getOutputMediaFile(int type) {
-
         Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
         if (!isSDPresent) {
             int duration = Toast.LENGTH_LONG;
-
             Toast toast = Toast.makeText(context, "card not mounted", duration);
             toast.show();
-
             Log.d("ERROR", "Card not mounted");
         }
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() + "/cats006/");
         Log.d(TAG, "path directory is: " + Environment.getExternalStorageDirectory().getPath());
-
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-
                 Log.d("MyCameraApp", "failed to create directory");
                 return null;
             }
         }
-
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
@@ -200,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return null;
         }
-
         return mediaFile;
     }
 }

@@ -66,12 +66,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 iii ++;
-                Log.d(TAG, "iii equals " + iii);
-                Log.d(TAG, "0000___   button post 1");
-                if (iii == 1 || iii == 5 || iii == 7){
-                    captureButton.performClick();
-                }
-                if (iii == 9) {
+                //Log.d(TAG, "iii equals " + iii);
+                //Log.d(TAG, "0000___   button post 1");
+                //if (iii == 1 || iii == 5 || iii == 7){
+                //    captureButton.performClick();
+                //}
+                //if (iii == 9) {
+                //    finish();
+                //    return;
+                //}
+                if (iii == 3) {
                     finish();
                     return;
                 }

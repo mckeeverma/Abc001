@@ -35,7 +35,7 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 public class MainActivity extends AppCompatActivity {
     private Camera mCamera;
     private CameraPreview mPreview;
-    String TAG = "marc123";
+    String TAG = "marclog_MainActivity";
     Button captureButton;
     int MY_PERMISSIONS_REQUEST_CAMERA = 99;
     int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 99;
@@ -60,13 +60,18 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Log.d(TAG, "timer checking things now");
                 if (iii == 3) {
                     Log.d(TAG, "finally iii = 3");
                     finish();
+                    finish();
+                    finish();
+                    finishAffinity();
+                    finishAffinity();
                     finishAffinity();
                 }
             }
-        }, 2000);
+        }, 10000);
         boolean aaa = checkCameraHardware(this);
         // Create an instance of Camera
         mCamera = getCameraInstance();
@@ -81,12 +86,13 @@ public class MainActivity extends AppCompatActivity {
         captureButton.post(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "captureButton.post is here");
                 iii++;
                 if (iii == 1) {
                     captureButton.performClick();
                 }
                 if (iii == 3) {
-                    //finish();
+                    finish();
                     return;
                 }
                 captureButton.postDelayed(this, 3000);

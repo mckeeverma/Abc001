@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "in onStop");
+        android.os.Process.killProcess(android.os.Process.myPid());
         //finish();
         //Log.d(TAG, "in onStop -- finish");
     }

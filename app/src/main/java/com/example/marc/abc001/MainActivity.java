@@ -32,35 +32,24 @@ public class MainActivity extends AppCompatActivity {
     private CameraPreview mPreview;
     String TAG = "marclog_MainActivity";
     Button captureButton;
-    Button endButton;
     int MY_PERMISSIONS_REQUEST_CAMERA = 99;
     int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 99;
     Boolean permission = false;
     static File imgFile = null;
     static Context context;
     int iii = 0;
-    int ppp = 0;
+    int jjj = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ppp++;
-        Log.d(TAG, "zzzz start of onCreate: " + ppp);
+        Log.d(TAG, "at the start of onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         captureButton = (Button) findViewById(R.id.button_capture);
-        endButton = (Button) findViewById(R.id.end_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mCamera.takePicture(null, null, mPicture);
-                    }
-                }
-        );
-        endButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
                     }
                 }
         );
@@ -71,62 +60,45 @@ public class MainActivity extends AppCompatActivity {
         captureButton.post(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "captureButton.post is here");
+                Log.d(TAG, "captureButton.post is here_____");
                 iii++;
                 if (iii == 1) {
                     captureButton.performClick();
                 }
-                if (iii == 3) {
+                if (jjj == 1) {
                     finish();
-                    return;
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
-                captureButton.postDelayed(this, 3000);
+                captureButton.postDelayed(this, 20);
             }
         });
-        Log.d(TAG, "0000   main 007 done");
-        Log.d(TAG, "here i am - at the end of the method");
-        //  while(true) {
-        //      if (iii == 3) {
-        //          Log.d(TAG, "finally iii = 3");
-        //          finish();
-        //          finishAffinity();
-        //      }
-        //  }
+        Log.d(TAG, "at the end of onCreate");
     }
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "zzzz in onResume");
+        Log.d(TAG, "in onResume");
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "in onDestroy");
-        //finish();
-        //Log.d(TAG, "in onDestroy -- finish");
-        //finishAffinity();
-        //Log.d(TAG, "in onDestroy -- finishAffinity");
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "in onStop");
         android.os.Process.killProcess(android.os.Process.myPid());
-        //finish();
-        //Log.d(TAG, "in onStop -- finish");
     }
     private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             Log.d(TAG, "picture taken");
-            captureButton.setText("def");
-            //mCamera.stopPreview();
-            //mCamera.release();
             mCamera.startPreview();
-            //mCamera = getCameraInstance();
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
             if (pictureFile == null) {
-                Log.d(TAG, "Error creating media file, check storage permissions: "); // + e.getMessage());
+                Log.d(TAG, "Error creating media file, check storage permissions: ");
                 return;
             }
             try {
@@ -138,18 +110,15 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
-            Log.d(TAG, "Activity closing now");
-            //finish();
+            jjj = 1;
         }
     };
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            // this device has a camera
             Log.d(TAG, "__________ device has a camera");
             return true;
         } else {
             Log.d(TAG, "__________ device does not have a camera");
-            // no camera on this device
             return false;
         }
     }

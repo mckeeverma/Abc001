@@ -37,17 +37,22 @@ public class MainActivity extends AppCompatActivity {
     private CameraPreview mPreview;
     String TAG = "marclog_MainActivity";
     Button captureButton;
+    Button endButton;
     int MY_PERMISSIONS_REQUEST_CAMERA = 99;
     int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 99;
     Boolean permission = false;
     static File imgFile = null;
     static Context context;
     int iii = 0;
+    int ppp = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ppp++;
+        Log.d(TAG, "zzzz start of onCreate: " + ppp);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         captureButton = (Button) findViewById(R.id.button_capture);
+        endButton = (Button) findViewById(R.id.end_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -56,33 +61,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Log.d(TAG, "timer checking things now");
-                if (iii == 3) {
-                    Log.d(TAG, "finally iii = 3");
-                    finish();
-                    finish();
-                    finish();
-                    finishAffinity();
-                    finishAffinity();
-                    finishAffinity();
+        endButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
                 }
-            }
-        }, 10000);
-        boolean aaa = checkCameraHardware(this);
-        // Create an instance of Camera
+        );
         mCamera = getCameraInstance();
-        // Create our Preview view and set it as the content of our activity.
-        Log.d(TAG, "0000   main 001_____!!!");
         CameraPreview mPreview = new CameraPreview(this, mCamera);
-        Log.d(TAG, "0000   main 002");
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        Log.d(TAG, "0000   main 003");
         preview.addView(mPreview);
-        Log.d(TAG, "0000   main 004");
         captureButton.post(new Runnable() {
             @Override
             public void run() {
@@ -108,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
         //      }
         //  }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "zzzz in onResume");
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

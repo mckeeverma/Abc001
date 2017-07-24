@@ -1,17 +1,22 @@
 package com.example.marc.abc001;
 import android.Manifest;
+import android.app.KeyguardManager;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -37,12 +42,15 @@ public class MainActivity extends AppCompatActivity {
     Boolean permission = false;
     static File imgFile = null;
     static Context context;
-    int iii = 0;
-    int jjj = 0;
+    int firstTime = 0;
+    int pictureSaved = 0;
+    private Window window1;
+    //----------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "at the start of onCreate");
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_main);
         captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
@@ -61,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Log.d(TAG, "captureButton.post is here_____");
-                iii++;
-                if (iii == 1) {
+                firstTime++;
+                if (firstTime == 1) {
                     captureButton.performClick();
                 }
-                if (jjj == 1) {
+                if (pictureSaved == 1) {
                     finish();
                     android.os.Process.killProcess(android.os.Process.myPid());
                 }
@@ -74,23 +82,27 @@ public class MainActivity extends AppCompatActivity {
         });
         Log.d(TAG, "at the end of onCreate");
     }
+    //----------------------------------------------------------------------------------------------
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "in onResume");
     }
+    //----------------------------------------------------------------------------------------------
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "in onDestroy");
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+    //----------------------------------------------------------------------------------------------
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "in onStop");
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+    //----------------------------------------------------------------------------------------------
     private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
@@ -110,9 +122,10 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
-            jjj = 1;
+            pictureSaved = 1;
         }
     };
+    //----------------------------------------------------------------------------------------------
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Log.d(TAG, "__________ device has a camera");
@@ -122,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+    //----------------------------------------------------------------------------------------------
     public Camera getCameraInstance() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             permission = checkCameraPermission();
@@ -146,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return c; // returns null if camera is unavailable
     }
+    //----------------------------------------------------------------------------------------------
     public boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -165,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+    //----------------------------------------------------------------------------------------------
     public File getOutputMediaFile(int type) {
         Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
         if (!isSDPresent) {
@@ -195,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 @SuppressWarnings("deprecation")
+//----------------------------------------------------------------------------------------------
 class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
@@ -209,6 +226,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
+    //----------------------------------------------------------------------------------------------
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         Log.d(TAG, "0000001");
@@ -222,6 +240,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
             Log.d(TAG, "Error setting camera preview: " + e.getMessage());
         }
     }
+    //----------------------------------------------------------------------------------------------
     public void surfaceDestroyed(SurfaceHolder holder) {
         // empty. Take care of releasing the Camera preview in your activity.
         // TODO Auto-generated method stub
@@ -234,6 +253,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         //   }
         //    previewing = false;
     }
+    //----------------------------------------------------------------------------------------------
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.

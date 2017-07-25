@@ -71,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "captureButton.post is here_____");
                 firstTime++;
                 if (firstTime == 1) {
+                    Log.d(TAG, "firstTime is true");
                     captureButton.performClick();
                 }
                 if (pictureSaved == 1) {
+                    Log.d(TAG, "pictureSaved is true");
                     finish();
                     android.os.Process.killProcess(android.os.Process.myPid());
                 }

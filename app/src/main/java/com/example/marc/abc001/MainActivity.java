@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "at the start of onCreate");
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_main);
+        turnScreenOn();
         captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -95,14 +96,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "in onDestroy");
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
     }
     //----------------------------------------------------------------------------------------------
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "in onStop");
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
+    }
+    //----------------------------------------------------------------------------------------------
+    private void turnScreenOn() {
+        int flags = WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+        try {
+            getWindow().addFlags(flags);
+            Log.d(TAG, "getWindow() call");
+        } catch (Exception e) {
+            Log.d(TAG, "Error on getWindow() call: " + e.getMessage());
+        }
     }
     //----------------------------------------------------------------------------------------------
     private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {

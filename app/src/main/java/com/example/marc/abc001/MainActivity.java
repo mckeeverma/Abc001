@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     int firstTime = 0;
     int pictureSaved = 0;
     private Window window1;
+    public String passedFilenameFromBroadcastReceiver;
     //----------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         turnScreenOn();
         captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setText(getIntent().getStringExtra("msg"));
+		passedFilenameFromBroadcastReceiver = getIntent().getStringExtra("msg");
+        captureButton.setText(passedFilenameFromBroadcastReceiver);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -215,8 +217,8 @@ public class MainActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
+            //mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + passedFilenameFromBroadcastReceiver);
             imgFile = mediaFile;
         } else {
             return null;

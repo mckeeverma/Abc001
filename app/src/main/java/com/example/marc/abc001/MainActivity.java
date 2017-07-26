@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         turnScreenOn();
         captureButton = (Button) findViewById(R.id.button_capture);
+        captureButton.setText(getIntent().getStringExtra("msg"));
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

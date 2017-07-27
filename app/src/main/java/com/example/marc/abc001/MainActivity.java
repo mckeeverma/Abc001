@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
             Log.d("ERROR", "Card not mounted");
         }
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() + "/cats006/");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() + "/cats/");
         Log.d(TAG, "path directory is: " + Environment.getExternalStorageDirectory().getPath());
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {

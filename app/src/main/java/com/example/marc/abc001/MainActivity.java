@@ -43,9 +43,10 @@ public class MainActivity extends AppCompatActivity {
     static File imgFile = null;
     static Context context;
     int firstTime = 0;
-    int pictureSaved = 0;
+    int pictureSavedAndEmailed = 0;
     private Window window1;
     public String passedFilenameFromBroadcastReceiver;
+    public String passedEmailAddressFromBroadcastReceiver;
     //----------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +56,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         turnScreenOn();
         captureButton = (Button) findViewById(R.id.button_capture);
-        passedFilenameFromBroadcastReceiver = getIntent().getStringExtra("msg");
+        passedFilenameFromBroadcastReceiver = getIntent().getStringExtra("image_filename");
+        passedEmailAddressFromBroadcastReceiver = getIntent().getStringExtra("send_email_to_this_address");
         Log.d(TAG, "passedFilenameFromBroadcastReceiver: " + passedFilenameFromBroadcastReceiver);
-        if (passedFilenameFromBroadcastReceiver == null) {
+        if (passedFilenameFromBroadcastReceiver == null) { // then the (send email TO address) will also be null
             // this happens if the app is started on its own (versus started by background service or broadcast receiver)
             Log.d(TAG, "passedFilenameFromBroadcastReceiver is null");
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             passedFilenameFromBroadcastReceiver = "img_" + timeStamp + ".jpg";
             Log.d(TAG, "passedFilenameFromBroadcastReceiver value: " + passedFilenameFromBroadcastReceiver);
+            passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
         }
         captureButton.setText(passedFilenameFromBroadcastReceiver);
         captureButton.setOnClickListener(
@@ -86,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "firstTime is true");
                     captureButton.performClick();
                 }
-                if (pictureSaved == 1) {
-                    Log.d(TAG, "pictureSaved is true");
+                if (pictureSavedAndEmailed == 1) {
+                    Log.d(TAG, "pictureSavedAndEmailed is true");
                     finish();
                     android.os.Process.killProcess(android.os.Process.myPid());
                 }
@@ -146,7 +149,24 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
-            pictureSaved = 1;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
+                    try {
+                        //Mail sender = new Mail("thanksfromcats@gmail.com", "thanksfromcats1");
+                        Mail sender = new Mail();
+                        sender.sendEmail( passedEmailAddressFromBroadcastReceiver,  // to
+                                         "thanksfromcats@gmail.com",                // from
+                                         "Kitty Cage",                              // subject
+                                         "photo:",                                  // message (body)
+                                          passedFilenameFromBroadcastReceiver);     // attachment filename
+                        pictureSavedAndEmailed = 1;
+                    } catch (Exception e) {
+                        Log.e("SendEmail error: ", e.getMessage());
+                    }
+                }
+            }).start();
         }
     };
     //----------------------------------------------------------------------------------------------

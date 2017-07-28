@@ -56,17 +56,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         turnScreenOn();
         captureButton = (Button) findViewById(R.id.button_capture);
-        passedFilenameFromBroadcastReceiver = getIntent().getStringExtra("image_filename");
-        passedEmailAddressFromBroadcastReceiver = getIntent().getStringExtra("send_email_to_this_address");
-        Log.d(TAG, "passedFilenameFromBroadcastReceiver: " + passedFilenameFromBroadcastReceiver);
         if (passedFilenameFromBroadcastReceiver == null) { // then the (send email TO address) will also be null
             // this happens if the app is started on its own (versus started by background service or broadcast receiver)
             Log.d(TAG, "passedFilenameFromBroadcastReceiver is null");
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             passedFilenameFromBroadcastReceiver = "img_" + timeStamp + ".jpg";
-            Log.d(TAG, "passedFilenameFromBroadcastReceiver value: " + passedFilenameFromBroadcastReceiver);
             passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
+        } else {
+            passedFilenameFromBroadcastReceiver = getIntent().getStringExtra("image_filename");
+            passedEmailAddressFromBroadcastReceiver = getIntent().getStringExtra("send_email_to_this_address");
         }
+        Log.d(TAG, "passedFilenameFromBroadcastReceiver _______value: " + passedFilenameFromBroadcastReceiver);
+        Log.d(TAG, "passedEmailAddressFromBroadcastReceiver ___value: " + passedEmailAddressFromBroadcastReceiver);
         captureButton.setText(passedFilenameFromBroadcastReceiver);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {

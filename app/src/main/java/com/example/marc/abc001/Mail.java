@@ -37,7 +37,6 @@ public class Mail extends javax.mail.Authenticator {
 
     private String host;
 
-
     private boolean _auth;
 
     private boolean _debuggable;

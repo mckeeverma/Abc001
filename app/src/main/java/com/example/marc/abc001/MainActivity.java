@@ -69,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "passedFilenameFromBroadcastReceiver _______value: " + passedFilenameFromBroadcastReceiver);
         Log.d(TAG, "passedEmailAddressFromBroadcastReceiver ___value: " + passedEmailAddressFromBroadcastReceiver);
         if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("m")) {
-            passedEmailAddressFromBroadcastReceiver = "marc@usanonstop.com";
-        } else if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("g")) {
-            passedEmailAddressFromBroadcastReceiver = "ibaczar@hotmail.com";
+            passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com.com";
         } else if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("t")) {
             passedEmailAddressFromBroadcastReceiver = "leggup16@gmail.com";
         }

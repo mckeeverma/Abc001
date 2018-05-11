@@ -177,7 +177,7 @@ public class Mail extends javax.mail.Authenticator {
         Log.d(TAG, "subject: " + subject);
         Log.d(TAG, "body: " + body);
         user = "thanksfromcats@gmail.com";
-        password = "thanksfromcats1";
+        password = "Savecats1";
         //to = "thanksfromcats@gmail.com";
         Log.d(TAG, "user: " + user);
         Log.d(TAG, "password: " + password);

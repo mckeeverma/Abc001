@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "passedFilenameFromBroadcastReceiver _______value: " + passedFilenameFromBroadcastReceiver);
         Log.d(TAG, "passedEmailAddressFromBroadcastReceiver ___value: " + passedEmailAddressFromBroadcastReceiver);
         if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("m")) {
-            passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com.com";
+            passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
         } else if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("t")) {
             passedEmailAddressFromBroadcastReceiver = "leggup16@gmail.com";
         }
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         captureButton.post(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "captureButton.post is here_____");
+                //Log.d(TAG, "captureButton.post is here_____");
                 firstTime++;
                 if (firstTime == 1) {
                     Log.d(TAG, "firstTime is true");

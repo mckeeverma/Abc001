@@ -64,15 +64,16 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "passedFilenameFromBroadcastReceiver is null");
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             passedFilenameFromBroadcastReceiver = "img_" + timeStamp + ".jpg";
-            passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
+            //passedEmailAddressFromBroadcastReceiver = "thanksfromcats@gmail.com";
+            //passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
         }
         Log.d(TAG, "passedFilenameFromBroadcastReceiver _______value: " + passedFilenameFromBroadcastReceiver);
         Log.d(TAG, "passedEmailAddressFromBroadcastReceiver ___value: " + passedEmailAddressFromBroadcastReceiver);
-        if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("m")) {
-            passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
-        } else if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("t")) {
-            passedEmailAddressFromBroadcastReceiver = "leggup16@gmail.com";
-        }
+        //if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("m")) {
+        //    passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
+        //} else if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("t")) {
+        //    passedEmailAddressFromBroadcastReceiver = "leggup16@gmail.com";
+        //}
         //captureButton.setText(passedFilenameFromBroadcastReceiver);
         captureButton.setText(passedEmailAddressFromBroadcastReceiver);
         captureButton.setOnClickListener(
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                                 "thanksfromcats@gmail.com",                // from
                                 "Kitty Cage",                              // subject
                                 "photo:",                                  // message (body)
-                                passedFilenameFromBroadcastReceiver);     // attachment filename
+                                passedFilenameFromBroadcastReceiver);      // attachment filename
                         pictureSavedAndEmailed = 1;
                     } catch (Exception e) {
                         Log.e("SendEmail error: ", e.getMessage());

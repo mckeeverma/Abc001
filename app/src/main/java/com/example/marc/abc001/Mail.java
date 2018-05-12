@@ -73,7 +73,7 @@ public class Mail extends javax.mail.Authenticator {
         Log.d("marclog", "To: " + mail.getTo());
         Log.d("marclog", "sending mail now ... to " + mail.getTo());
         try {
-            mail.send();
+            mail.send(1);
         } catch (Exception e) {
             Log.d("marclog", "Error on mail.send: " + e.getMessage());
             e.printStackTrace();
@@ -91,7 +91,7 @@ public class Mail extends javax.mail.Authenticator {
         Log.d("marclog", "To: " + mail.getTo());
         Log.d("marclog", "sending mail now ... to thanksfromcats@gmail.com");
         try {
-            mail.send();
+            mail.send(0);
         } catch (Exception e) {
             Log.d("marclog", "Error on mail.send: " + e.getMessage());
             e.printStackTrace();
@@ -184,7 +184,7 @@ public class Mail extends javax.mail.Authenticator {
         password = pass;
     }
 
-    public boolean send() throws Exception {
+    public boolean send(int attach) throws Exception {
         Properties props = _setProperties();
         String TAG = "marclog in send()";
 
@@ -217,9 +217,11 @@ public class Mail extends javax.mail.Authenticator {
             msg.setSentDate(new Date());
 
             // setup message body
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(body);
-            multipart.addBodyPart(messageBodyPart);
+            if (attach == 1) {
+                BodyPart messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setText(body);
+                multipart.addBodyPart(messageBodyPart);
+            }
 
             // Put parts in message
             msg.setContent(multipart);
@@ -233,7 +235,9 @@ public class Mail extends javax.mail.Authenticator {
             String xString2 = xFile.toString();
             Log.d("marclog", "xdirectory: " + xString2);
             //addAttachment("/storage/emulated/0/cats/IMG_20170727_185528.jpg");
-            addAttachment("/storage/emulated/0/cats/" + attachment_filename);
+            if (attach == 1) {
+                addAttachment("/storage/emulated/0/cats/" + attachment_filename);
+            }
             try {
                 Transport.send(msg);
             } catch (Exception e) {

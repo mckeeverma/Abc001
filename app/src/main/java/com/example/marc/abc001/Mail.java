@@ -63,7 +63,7 @@ public class Mail extends javax.mail.Authenticator {
         //-----------------------------------------------------------------
         mail.setTo("thanksfromcats@gmail.com");
         mail.setFrom(from);
-        mail.attachment_filename = attachment;
+        //mail.attachment_filename = attachment;
         //if (attachments != null) {
         //    for (String attachment : attachments) {
         //        mail.addAttachment(attachment);

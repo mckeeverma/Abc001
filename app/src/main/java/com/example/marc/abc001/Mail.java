@@ -1,8 +1,12 @@
 package com.example.marc.abc001;
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Properties;
 

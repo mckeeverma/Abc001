@@ -23,10 +23,14 @@ import android.widget.Toast;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Window window1;
     public String passedFilenameFromBroadcastReceiver;
     public String passedEmailAddressFromBroadcastReceiver;
+    public String line = null;
     //----------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +176,23 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
             }
+            try { // /storage/emulated/0/phonenumber/phonenumber.txt
+                String fileName = "/storage/emulated/0/phonenumber/phonenumber.txt";
+                FileInputStream fis = new FileInputStream(fileName);
+                InputStreamReader inputStreamReader = new InputStreamReader(fis);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                StringBuilder stringBuilder = new StringBuilder();
+                while ( (line = bufferedReader.readLine()) != null )
+                {
+                    stringBuilder.append(line + System.getProperty("line.separator"));
+                }
+                fis.close();
+                line = stringBuilder.toString();
+                bufferedReader.close();
+                Log.d(TAG, "Read file content: " + line);
+            } catch (Exception e) {
+                Log.d(TAG, "Read file error: " + e.getMessage());
+            }
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -180,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         Mail sender = new Mail();
                         sender.sendEmail(passedEmailAddressFromBroadcastReceiver,  // to
                                 "thanksfromcats@gmail.com",                // from
-                                "Kitty Cage",                              // subject
+                                "Kitty Cage " + line,                      // subject
                                 "photo:",                                  // message (body)
                                 passedFilenameFromBroadcastReceiver);      // attachment filename
                         pictureSavedAndEmailed = 1;

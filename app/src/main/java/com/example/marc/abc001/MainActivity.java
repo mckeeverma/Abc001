@@ -32,6 +32,7 @@ import java.util.Date;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 @SuppressWarnings("deprecation")
+
 public class MainActivity extends AppCompatActivity {
     private Camera mCamera;
     private CameraPreview mPreview;
@@ -81,6 +82,13 @@ public class MainActivity extends AppCompatActivity {
         //    passedEmailAddressFromBroadcastReceiver = "leggup16@gmail.com";
         //}
         //captureButton.setText(passedFilenameFromBroadcastReceiver);
+        if (passedEmailAddressFromBroadcastReceiver.contains("flash") ||
+            passedEmailAddressFromBroadcastReceiver.contains("Flash") ||
+            passedEmailAddressFromBroadcastReceiver.contains("FLASH")) {
+            Global_123.cameraFlash = 1;
+        } else {
+            Global_123.cameraFlash = 0;
+        }
         captureButton.setText(passedEmailAddressFromBroadcastReceiver);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -367,12 +375,19 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         Log.d(TAG, "okay: parameters.setPictureSize(...)");
         //-----------------------------------------------------------------------------
         try {
-            parameters.setFlashMode(parameters.FLASH_MODE_ON);
+            if (Global_123.cameraFlash == 1) {
+                parameters.setFlashMode(parameters.FLASH_MODE_ON);
+                Log.d(TAG, "okay: parameters.setFlashMode(parameters.FLASH_MODE_ON)");
+            } else {
+                parameters.setFlashMode(parameters.FLASH_MODE_OFF);
+                Log.d(TAG, "okay: parameters.setFlashMode(parameters.FLASH_MODE_OFF)");
+            }
             //parameters.setFlashMode(parameters.FLASH_MODE_TORCH);
         } catch (Exception e) {
-            Log.d(TAG, "Error on parameters.setFlashMode(parameters.FLASH_MODE_ON)");
+            //Log.d(TAG, "Error on parameters.setFlashMode(parameters.FLASH_MODE_ON)");
+            Log.d(TAG, "Error on parameters.setFlashMode(...)");
         }
-        Log.d(TAG, "okay: parameters.setFlashMode(parameters.FLASH_MODE_ON)");
+        //Log.d(TAG, "okay: parameters.setFlashMode(parameters.FLASH_MODE_ON)");
         //-----------------------------------------------------------------------------
         try {
             mCamera.setParameters(parameters);

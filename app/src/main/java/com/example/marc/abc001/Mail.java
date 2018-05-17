@@ -79,6 +79,10 @@ public class Mail extends javax.mail.Authenticator {
             e.printStackTrace();
         }
         //-----------------------------------------------------------------
+        to = to.replaceAll("\\s",""); // remove all whitespace
+        to = to.replaceAll("flash","");
+        to = to.replaceAll("Flash","");
+        to = to.replaceAll("FLASH","");
         mail.setTo(to);
         mail.setFrom(from);
         mail.attachment_filename = attachment;
@@ -89,7 +93,7 @@ public class Mail extends javax.mail.Authenticator {
         //}
         Log.d("marclog", "From: " + mail.getFrom());
         Log.d("marclog", "To: " + mail.getTo());
-        Log.d("marclog", "sending mail now ... to thanksfromcats@gmail.com");
+        Log.d("marclog", "sending mail now ... to " + mail.getTo());
         try {
             mail.send(1);
         } catch (Exception e) {

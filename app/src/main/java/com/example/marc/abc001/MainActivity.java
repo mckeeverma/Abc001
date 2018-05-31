@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Global_123.cameraFlash = 0;
         }
-        captureButton.setText(passedEmailAddressFromBroadcastReceiver);
+        captureButton.setText("");
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -196,13 +196,20 @@ public class MainActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    String stringFN;
                     //sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
+                    if (Global_123.cameraFlash == 1) {
+                        stringFN = "F";
+                    } else {
+                        stringFN = "N";
+                    }
+
                     try {
                         //Mail sender = new Mail("thanksfromcats@gmail.com", "thanksfromcats1");
                         Mail sender = new Mail();
                         sender.sendEmail(passedEmailAddressFromBroadcastReceiver,  // to
                                 "thanksfromcats@gmail.com",                // from
-                                "Kitty Cage " + line,                      // subject
+                                "Kitty Cage " + stringFN + " " + line,     // subject
                                 "photo:",                                  // message (body)
                                 passedFilenameFromBroadcastReceiver);      // attachment filename
                         pictureSavedAndEmailed = 1;

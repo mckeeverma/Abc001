@@ -230,7 +230,6 @@ public class Mail extends javax.mail.Authenticator {
                 messageBodyPart.setText(body);
                 multipart.addBodyPart(messageBodyPart);
             }
-
             // Put parts in message
             msg.setContent(multipart);
 

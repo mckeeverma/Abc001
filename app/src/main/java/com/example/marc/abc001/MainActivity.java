@@ -208,10 +208,10 @@ public class MainActivity extends AppCompatActivity {
                         //Mail sender = new Mail("thanksfromcats@gmail.com", "thanksfromcats1");
                         Mail sender = new Mail();
                         sender.sendEmail(passedEmailAddressFromBroadcastReceiver,  // to
-                                "thanksfromcats@gmail.com",                // from
-                                "Kitty Cage " + stringFN + " " + line,     // subject
-                                "photo:",                                  // message (body)
-                                passedFilenameFromBroadcastReceiver);      // attachment filename
+                                "thanksfromcats@gmail.com",                        // from
+                                "Kitty Cage " + stringFN + " " + line,             // subject
+                                "", //"photo:",                                    // message (body)
+                                passedFilenameFromBroadcastReceiver);              // attachment filename
                         pictureSavedAndEmailed = 1;
                     } catch (Exception e) {
                         Log.e("SendEmail error: ", e.getMessage());

@@ -65,23 +65,23 @@ public class Mail extends javax.mail.Authenticator {
             mail.setBody("Message");
         }
         //-----------------------------------------------------------------
-        mail.setTo("thanksfromcats@gmail.com");
-        mail.setFrom(from);
-        //mail.attachment_filename = attachment;
-        //if (attachments != null) {
-        //    for (String attachment : attachments) {
-        //        mail.addAttachment(attachment);
-        //    }
+        //mail.setTo("thanksfromcats@gmail.com");
+        //mail.setFrom(from);
+        //////mail.attachment_filename = attachment;
+        //////if (attachments != null) {
+        //////    for (String attachment : attachments) {
+        //////        mail.addAttachment(attachment);
+        //////    }
+        //////}
+        //Log.d("marclog", "From: " + mail.getFrom());
+        //Log.d("marclog", "To: " + mail.getTo());
+        //Log.d("marclog", "sending mail now ... to " + mail.getTo());
+        //try {
+        //    mail.send(0);
+        //} catch (Exception e) {
+        //    Log.d("marclog", "Error on mail.send: " + e.getMessage());
+        //    e.printStackTrace();
         //}
-        Log.d("marclog", "From: " + mail.getFrom());
-        Log.d("marclog", "To: " + mail.getTo());
-        Log.d("marclog", "sending mail now ... to " + mail.getTo());
-        try {
-            mail.send(0);
-        } catch (Exception e) {
-            Log.d("marclog", "Error on mail.send: " + e.getMessage());
-            e.printStackTrace();
-        }
         //-----------------------------------------------------------------
         to = to.replaceAll("\\s",""); // remove all whitespace
         to = to.replaceAll("flash","");

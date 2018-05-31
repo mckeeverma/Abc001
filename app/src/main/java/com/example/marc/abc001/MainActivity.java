@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                         sender.sendEmail(passedEmailAddressFromBroadcastReceiver,  // to
                                 "thanksfromcats@gmail.com",                        // from
                                 "Kitty Cage " + stringFN + " " + line,             // subject
-                                "", //"photo:",                                    // message (body)
+                                "photo:",                                         // message (body)
                                 passedFilenameFromBroadcastReceiver);              // attachment filename
                         pictureSavedAndEmailed = 1;
                     } catch (Exception e) {

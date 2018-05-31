@@ -62,7 +62,7 @@ public class Mail extends javax.mail.Authenticator {
         if (message != null && message.length() > 0) {
             mail.setBody(message);
         } else {
-            mail.setBody("");
+            mail.setBody("Message");
         }
         //-----------------------------------------------------------------
         //mail.setTo("thanksfromcats@gmail.com");
